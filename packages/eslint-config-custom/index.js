@@ -4,4 +4,11 @@ module.exports = {
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
   },
+  parserOptions: {
+    ecmaVersion: "latest",
+  },
+
+  env: {
+    es6: true,
+  },
 };

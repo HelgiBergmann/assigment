@@ -1,10 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
 import { faker } from '@faker-js/faker';
 import NextCors from 'nextjs-cors';
+import { getDataForReport, prepareDataForChart } from "./utils/prepareData";
 
-
-
-class Report {
+export class Report {
   userAgent!: string;
   _id!: string;
   category!: string;
@@ -14,12 +13,7 @@ class Report {
   creationDate!: Date;
 }
 
-interface ReportTotal {
-  reportAmount: number;
-  partnerCount: number;
-  countryCount: number;
-  requestPerDay: number;
-}
+
 
 
 function createRandomReport(): Report {
@@ -56,34 +50,24 @@ function createRandomReport(): Report {
 
 
 
-function generateReports(reportAmount: number): Report[] {
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const reportAmount = 1014;
   const reports: Report[] = [];
+
+ 
+
   for (let i = 0; i < reportAmount; i++) {
     reports.push(createRandomReport());
   }
-  return reports;
-}
 
+  const data = getDataForReport(reports);
+  const totalReports = data.totalReports;
+  const result = prepareDataForChart(data);
 
-const reportAmount: number =  1014;
-const reports = generateReports(reportAmount);
+  
 
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-
-  // const reportDays: { [key: string]: number } = getReportInfoByTimeline(reports);
-  // const requestPerDay  = getReportAvrByTimeline(reportAmount, Object.keys(reportDays).length);
-  // const countryCount = getCountries(reports).size;
-  // const partnerCount = getPartners(reports).size;
-
-
-  // const result: ReportTotal = {
-  //   reportAmount,
-  //   requestPerDay,
-  //   countryCount,
-  //   partnerCount
-  // }
+  // console.log(barChart);
 
   await NextCors(req, res, {
     // Options
@@ -92,5 +76,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
  });
   
-  res.status(200).json("SOme data")
+  res.status(200).json({charts: result, totalReports})
 }

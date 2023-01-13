@@ -30,31 +30,17 @@ import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatist
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+import useReportsForBarChart from "layouts/dashboard/data/reportsTotal";
 
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
-import axios from "axios";
-
-axios
-  .get("https://3.84.53.46:3000/api/reports")
-  .then((response) => {
-    // handle success
-    console.log(response);
-  })
-  .catch((error) => {
-    // handle error
-    console.log(error);
-  })
-  .finally(() => {
-    // always executed
-    console.log("done");
-  });
-
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
-
+  const reports = useReportsForBarChart();
+  console.log(reports, "reports");
+  const { charts, totalReports } = reports;
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -62,61 +48,69 @@ function Dashboard() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
-                }}
-              />
+              {reports?.totalReports.reportAmount && (
+                <ComplexStatisticsCard
+                  color="dark"
+                  icon="weekend"
+                  title="Reports amount"
+                  count={reports?.totalReports.reportAmount}
+                  percentage={{
+                    color: "success",
+                    amount: "+55%",
+                    label: "than lask week",
+                  }}
+                />
+              )}
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
+              {reports?.totalReports.partnerCount && (
+                <ComplexStatisticsCard
+                  icon="leaderboard"
+                  title="Partners count"
+                  count={reports?.totalReports.partnerCount}
+                  percentage={{
+                    color: "success",
+                    amount: "+3%",
+                    label: "than last month",
+                  }}
+                />
+              )}
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
+              {reports?.totalReports.countryCount && (
+                <ComplexStatisticsCard
+                  color="success"
+                  icon="store"
+                  title="Country count"
+                  count={reports?.totalReports.countryCount}
+                  percentage={{
+                    color: "success",
+                    amount: "+1%",
+                    label: "than yesterday",
+                  }}
+                />
+              )}
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+              {reports?.totalReports.requestPerDay && (
+                <ComplexStatisticsCard
+                  color="primary"
+                  icon="person_add"
+                  title="Reuqest per day"
+                  count={reports?.totalReports.requestPerDay}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              )}
             </MDBox>
           </Grid>
         </Grid>
@@ -124,39 +118,45 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
+                {reports?.charts?.countryChart && (
+                  <ReportsBarChart
+                    color="info"
+                    title="website views"
+                    description="Last Campaign Performance"
+                    date="campaign sent 2 days ago"
+                    chart={reports?.charts?.countryChart}
+                  />
+                )}
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
+                {reports?.charts?.weekdayChart && (
+                  <ReportsLineChart
+                    color="success"
+                    title="daily sales"
+                    description={
+                      <>
+                        (<strong>+15%</strong>) increase in today sales.
+                      </>
+                    }
+                    date="updated 4 min ago"
+                    chart={reports?.charts?.weekdayChart}
+                  />
+                )}
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
+                {reports?.charts?.categoryChart && (
+                  <ReportsLineChart
+                    color="dark"
+                    title="completed tasks"
+                    description="Last Campaign Performance"
+                    date="just updated"
+                    chart={reports?.charts?.categoryChart}
+                  />
+                )}
               </MDBox>
             </Grid>
           </Grid>
