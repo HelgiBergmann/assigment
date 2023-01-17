@@ -6,10 +6,9 @@ export default function useReportsForBarChart() {
 
   useLayoutEffect(() => {
     axios
-      .get("http://localhost:3000/api/reports/barchart")
+      .get("http://localhost:5000/barchart")
       .then((response) => {
         // handle success
-        console.log(response);
         setReports(response.data);
       })
       .catch((error) => {
@@ -21,6 +20,5 @@ export default function useReportsForBarChart() {
         console.log("done");
       });
   }, []);
-  console.log(reports);
   return reports;
 }

@@ -48,12 +48,12 @@ function Dashboard() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              {reports?.totalReports.reportAmount && (
+              {reports?.totalReports?.reportAmount && (
                 <ComplexStatisticsCard
                   color="dark"
                   icon="weekend"
                   title="Reports amount"
-                  count={reports?.totalReports.reportAmount}
+                  count={reports?.totalReports?.reportAmount}
                   percentage={{
                     color: "success",
                     amount: "+55%",
@@ -65,11 +65,11 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              {reports?.totalReports.partnerCount && (
+              {reports?.totalReports?.partnerCount && (
                 <ComplexStatisticsCard
                   icon="leaderboard"
                   title="Partners count"
-                  count={reports?.totalReports.partnerCount}
+                  count={reports?.totalReports?.partnerCount}
                   percentage={{
                     color: "success",
                     amount: "+3%",
@@ -81,12 +81,12 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              {reports?.totalReports.countryCount && (
+              {reports?.totalReports?.countryCount && (
                 <ComplexStatisticsCard
                   color="success"
                   icon="store"
                   title="Country count"
-                  count={reports?.totalReports.countryCount}
+                  count={reports?.totalReports?.countryCount}
                   percentage={{
                     color: "success",
                     amount: "+1%",
@@ -98,12 +98,12 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              {reports?.totalReports.requestPerDay && (
+              {reports?.totalReports?.requestPerDay && (
                 <ComplexStatisticsCard
                   color="primary"
                   icon="person_add"
                   title="Reuqest per day"
-                  count={reports?.totalReports.requestPerDay}
+                  count={reports?.totalReports?.requestPerDay}
                   percentage={{
                     color: "success",
                     amount: "",
@@ -116,19 +116,6 @@ function Dashboard() {
         </Grid>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                {reports?.charts?.countryChart && (
-                  <ReportsBarChart
-                    color="info"
-                    title="website views"
-                    description="Last Campaign Performance"
-                    date="campaign sent 2 days ago"
-                    chart={reports?.charts?.countryChart}
-                  />
-                )}
-              </MDBox>
-            </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 {reports?.charts?.weekdayChart && (
@@ -148,6 +135,19 @@ function Dashboard() {
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
+                {reports?.charts?.countryChart && (
+                  <ReportsBarChart
+                    color="info"
+                    title="website views"
+                    description="Last Campaign Performance"
+                    date="campaign sent 2 days ago"
+                    chart={reports?.charts?.countryChart}
+                  />
+                )}
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
                 {reports?.charts?.categoryChart && (
                   <ReportsLineChart
                     color="dark"
@@ -161,7 +161,7 @@ function Dashboard() {
             </Grid>
           </Grid>
         </MDBox>
-        <MDBox>
+        {/* <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
               <Projects />
@@ -170,7 +170,7 @@ function Dashboard() {
               <OrdersOverview />
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
       </MDBox>
       <Footer />
     </DashboardLayout>
