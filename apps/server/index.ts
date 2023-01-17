@@ -61,6 +61,7 @@ let redisStoreReports: string = '';
 // Set and get reports from redis
 // Swittch from dynamo to redis because redis works faster
 const setReportsToRedisDb = async () => {
+  // Get all reports from dynamo
   const getAllReports = await ddb.send(new ScanCommand({ TableName: process.env.TABLE_NAME}));
 
   // Set data to redis
@@ -74,7 +75,9 @@ const setReportsToRedisDb = async () => {
   // On applciation start, set reports to redis 
   // TODO: --> swtich from dynamo to redis
   // runs once on application start
-  await setReportsToRedisDb();
+  
+  // await setReportsToRedisDb();
+
 
   const runKoa = async (message: string) => {
     const app = new Koa();

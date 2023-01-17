@@ -50,6 +50,7 @@ let redisStoreReports = '';
 // Set and get reports from redis
 // Swittch from dynamo to redis because redis works faster
 const setReportsToRedisDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    // Get all reports from dynamo
     const getAllReports = yield ddb.send(new client_dynamodb_1.ScanCommand({ TableName: process.env.TABLE_NAME }));
     // Set data to redis
     yield redis.call("JSON.SET", "reports", "$", JSON.stringify(getAllReports));
@@ -59,7 +60,7 @@ const setReportsToRedisDb = () => __awaiter(void 0, void 0, void 0, function* ()
     // On applciation start, set reports to redis 
     // TODO: --> swtich from dynamo to redis
     // runs once on application start
-    yield setReportsToRedisDb();
+    // await setReportsToRedisDb();
     const runKoa = (message) => __awaiter(void 0, void 0, void 0, function* () {
         const app = new Koa();
         const router = new Router();
